@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Catálogo</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: menu}"></div>
+<div class="container">
+  <h1>Catálogo de productos</h1>
+  <p th:if="${msg != null}" th:text="${msg}" class="success"></p>
+  <a class="button" th:href="@{/products/new}">Nuevo producto</a>
+  <table>
+    <tr><th>ID</th><th>Nombre</th><th>Precio</th><th>Stock</th><th>Acciones</th></tr>
+    <tr th:each="p : ${products}">
+      <td th:text="${p.id}"></td>
+      <td th:text="${p.name}"></td>
+      <td th:text="${p.price}"></td>
+      <td th:text="${p.stock}"></td>
+      <td class="actions">
+        <a th:href="@{/products/edit(id=${p.id})}">Editar</a>
+        <a th:href="@{/products/delete(id=${p.id})}">Eliminar</a>
+      </td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
