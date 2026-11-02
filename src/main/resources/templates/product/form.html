@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Producto</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/nav :: menu}"></div>
+
+<div class="container">
+
+    <h1 th:text="${product.id == null ?
+                  'Nuevo producto' :
+                  'Editar producto'}"></h1>
+
+    <form th:action="@{/products/save}"
+          th:object="${product}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <label>Nombre</label>
+
+        <input type="text" th:field="*{name}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('name')}"
+           th:errors="*{name}">
+        </p>
+
+        <p class="error"
+           th:if="${nameError != null}"
+           th:text="${nameError}">
+        </p>
+
+
+        <label>Precio</label>
+
+        <input type="text" th:field="*{price}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('price')}"
+           th:errors="*{price}">
+        </p>
+
+        <p class="error"
+           th:if="${priceError != null}"
+           th:text="${priceError}">
+        </p>
+
+
+        <label>Stock disponible</label>
+
+        <input type="text" th:field="*{stock}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('stock')}"
+           th:errors="*{stock}">
+        </p>
+
+        <p class="error"
+           th:if="${stockError != null}"
+           th:text="${stockError}">
+        </p>
+
+
+        <button type="submit">
+            Guardar
+        </button>
+
+        <a class="button"
+           th:href="@{/products}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

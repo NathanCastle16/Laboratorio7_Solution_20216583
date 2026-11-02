@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo pedido</title>
+
+    <link rel="stylesheet"
+          th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/nav :: menu}"></div>
+
+<div class="container">
+
+    <h1>Nuevo pedido</h1>
+
+
+    <p class="global-error"
+       th:if="${globalError != null}"
+       th:text="${globalError}">
+    </p>
+
+
+    <form th:action="@{/orders/save}"
+          th:object="${invoice}"
+          method="post">
+
+
+        <label>
+            Tipo de comprobante
+        </label>
+
+        <select th:field="*{type}">
+
+            <option value="">
+                Seleccione
+            </option>
+
+            <option value="Factura">
+                Factura
+            </option>
+
+            <option value="Boleta">
+                Boleta
+            </option>
+
+        </select>
+
+
+        <p class="error"
+           th:if="${#fields.hasErrors('type')}"
+           th:errors="*{type}">
+        </p>
+
+        <p class="error"
+           th:if="${typeError != null}"
+           th:text="${typeError}">
+        </p>
+
+
+
+        <label>
+            Fecha
+        </label>
+
+        <input type="date"
+               th:field="*{date}">
+
+
+        <p class="error"
+           th:if="${#fields.hasErrors('date')}"
+           th:errors="*{date}">
+        </p>
+
+        <p class="error"
+           th:if="${dateError != null}"
+           th:text="${dateError}">
+        </p>
+
+
+
+        <label>
+            Cliente
+        </label>
+
+        <select name="customerId">
+
+            <option value="">
+                Seleccione
+            </option>
+
+            <option th:each="c : ${customers}"
+                    th:value="${c.id}"
+                    th:text="${c.name + ' - ' +
+                              c.documentType + ' ' +
+                              c.document}"
+                    th:selected="${selectedCustomerId != null &&
+                                  selectedCustomerId == c.id}">
+            </option>
+
+        </select>
+
+
+        <p class="error"
+           th:if="${customerError != null}"
+           th:text="${customerError}">
+        </p>
+
+
+
+        <h2>Productos</h2>
+
+
+        <p class="error"
+           th:if="${productError != null}"
+           th:text="${productError}">
+        </p>
+
+
+        <table>
+
+            <tr>
+
+                <th>Seleccionar</th>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Cantidad</th>
+
+            </tr>
+
+
+            <tr th:each="p, st : ${products}">
+
+                <td>
+
+                    <input type="checkbox"
+                           name="selectedProductIds"
+                           th:value="${p.id}"
+                           th:checked="${selectedFlags[st.index]}">
+
+
+                    <input type="hidden"
+                           name="allProductIds"
+                           th:value="${p.id}">
+
+                </td>
+
+
+                <td th:text="${p.name}">
+                </td>
+
+
+                <td th:text="${p.price}">
+                </td>
+
+
+                <td th:text="${p.stock}">
+                </td>
+
+
+                <td>
+
+                    <input class="small-input"
+                           type="text"
+                           name="quantities"
+                           th:value="${quantityValues[st.index]}">
+
+
+                    <p class="error"
+                       th:if="${quantityErrors[st.index] != ''}"
+                       th:text="${quantityErrors[st.index]}">
+                    </p>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+
+        <button type="submit">
+            Registrar pedido
+        </button>
+
+
+        <a class="button"
+           th:href="@{/orders}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+
+</html>
