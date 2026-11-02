@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: menu}"></div>
+<div class="container">
+    <h1>Pedidos</h1>
+    <p th:if="${msg != null}" th:text="${msg}" class="success"></p>
+    <a class="button" th:href="@{/orders/new}">Nuevo pedido</a>
+    <table>
+        <tr><th>ID</th><th>Tipo</th><th>Fecha</th><th>Cliente</th><th>Acción</th></tr>
+        <tr th:each="o : ${orders}">
+            <td th:text="${o.id}"></td>
+            <td th:text="${o.type}"></td>
+            <td th:text="${o.date}"></td>
+            <td th:text="${o.customer.name}"></td>
+            <td><a th:href="@{/orders/view(id=${o.id})}">Ver detalle</a></td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
