@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Cliente</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+
+<div th:replace="~{fragments/nav :: menu}"></div>
+
+<div class="container">
+
+    <h1 th:text="${customer.id == null ? 'Nuevo cliente' : 'Editar cliente'}"></h1>
+
+    <form th:action="@{/customers/save}"
+          th:object="${customer}"
+          method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <label>Nombre</label>
+
+        <input type="text"
+               th:field="*{name}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('name')}"
+           th:errors="*{name}">
+        </p>
+
+
+        <label>Tipo de documento</label>
+
+        <select th:field="*{documentType}">
+
+            <option value="">Seleccione</option>
+            <option value="DNI">DNI</option>
+            <option value="RUC">RUC</option>
+
+        </select>
+
+        <p class="error"
+           th:if="${#fields.hasErrors('documentType')}"
+           th:errors="*{documentType}">
+        </p>
+
+        <p class="error"
+           th:if="${documentTypeError != null}"
+           th:text="${documentTypeError}">
+        </p>
+
+
+        <label>Número de documento</label>
+
+        <input type="text"
+               th:field="*{document}">
+
+        <p class="error"
+           th:if="${#fields.hasErrors('document')}"
+           th:errors="*{document}">
+        </p>
+
+        <p class="error"
+           th:if="${documentError != null}"
+           th:text="${documentError}">
+        </p>
+
+
+        <button type="submit">Guardar</button>
+
+        <a class="button"
+           th:href="@{/customers}">
+            Cancelar
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

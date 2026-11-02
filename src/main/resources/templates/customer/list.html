@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Clientes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div th:replace="~{fragments/nav :: menu}"></div>
+<div class="container">
+    <h1>Clientes</h1>
+    <p th:if="${msg != null}" th:text="${msg}" class="success"></p>
+    <a class="button" th:href="@{/customers/new}">Nuevo cliente</a>
+    <table>
+        <tr><th>ID</th><th>Nombre</th><th>Tipo</th><th>Documento</th><th>Acciones</th></tr>
+        <tr th:each="c : ${customers}">
+            <td th:text="${c.id}"></td>
+            <td th:text="${c.name}"></td>
+            <td th:text="${c.documentType}"></td>
+            <td th:text="${c.document}"></td>
+            <td class="actions">
+                <a th:href="@{/customers/edit(id=${c.id})}">Editar</a>
+                <a th:href="@{/customers/delete(id=${c.id})}">Eliminar</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
